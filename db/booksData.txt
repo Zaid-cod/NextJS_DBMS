@@ -1,0 +1,362 @@
+USE [BookStore]
+GO
+
+-- Clear existing data (Optional, be careful with this on a live DB)
+/*
+DELETE FROM [dbo].[OrderLog];
+DELETE FROM [dbo].[Payments];
+DELETE FROM [dbo].[OrderDetails];
+DELETE FROM [dbo].[Orders];
+DELETE FROM [dbo].[Books];
+DELETE FROM [dbo].[Authors];
+DELETE FROM [dbo].[Publishers];
+DELETE FROM [dbo].[Customers];
+DELETE FROM [dbo].[Admins];
+
+-- Reset identity seeds (Optional)
+DBCC CHECKIDENT ('[dbo].[Admins]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[Authors]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[Publishers]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[Books]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[Customers]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[Orders]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[OrderDetails]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[Payments]', RESEED, 0);
+DBCC CHECKIDENT ('[dbo].[OrderLog]', RESEED, 0);
+GO
+*/
+
+-- 1. Admins (50 entries)
+-- Passwords should be hashed in a real system. Using 'AdminP@$$wOrd123!' as a placeholder.
+INSERT INTO [dbo].[Admins] ([Email], [AdminPass], [FirstName], [LastName], [IsActive], [CreatedDate], [LastLoginDate], [UpdatedDate]) VALUES
+('super.admin@bookstore.com', 'AdminP@$$wOrd123!', 'Super', 'User', 1, GETDATE(), GETDATE(), GETDATE()),
+('jane.doe.admin@bookstore.com', 'AdminP@$$wOrd123!', 'Jane', 'Doe', 1, GETDATE(), DATEADD(day, -1, GETDATE()), GETDATE()),
+('john.smith.admin@bookstore.com', 'AdminP@$$wOrd123!', 'John', 'Smith', 1, GETDATE(), DATEADD(day, -2, GETDATE()), GETDATE()),
+('alice.wonder.admin@bookstore.com', 'AdminP@$$wOrd123!', 'Alice', 'Wonder', 0, DATEADD(month, -1, GETDATE()), DATEADD(day, -10, GETDATE()), DATEADD(day, -5, GETDATE()));
+-- Add 46 more unique admins
+DECLARE @i_admin INT = 1;
+WHILE @i_admin <= 46
+BEGIN
+    INSERT INTO [dbo].[Admins] ([Email], [AdminPass], [FirstName], [LastName], [IsActive], [CreatedDate], [LastLoginDate], [UpdatedDate])
+    VALUES
+    ('admin' + CAST(@i_admin AS VARCHAR(2)) + '@bookstore.com',
+     'AdminP@$$wOrd' + CAST(@i_admin AS VARCHAR(2)) + '!',
+     'AdminF' + CAST(@i_admin AS VARCHAR(2)),
+     'AdminL' + CAST(@i_admin AS VARCHAR(2)),
+     CASE WHEN @i_admin % 10 = 0 THEN 0 ELSE 1 END,
+     DATEADD(day, -@i_admin, GETDATE()),
+     DATEADD(day, -(@i_admin % 5), GETDATE()),
+     DATEADD(day, -(@i_admin % 3), GETDATE()));
+    SET @i_admin = @i_admin + 1;
+END
+GO
+
+
+-- 2. Authors (50 entries)
+INSERT INTO [dbo].[Authors] ([Name], [DOB]) VALUES
+('Harper Lee', '1926-04-28'),
+('George Orwell', '1903-06-25'),
+('F. Scott Fitzgerald', '1896-09-24'),
+('Jane Austen', '1775-12-16'),
+('J.R.R. Tolkien', '1892-01-03'),
+('J.D. Salinger', '1919-01-01'),
+('Aldous Huxley', '1894-07-26'),
+('William Golding', '1911-09-19'),
+('Paulo Coelho', '1947-08-24'),
+('J.K. Rowling', '1965-07-31'),
+('Stephen King', '1947-09-21'),
+('Agatha Christie', '1890-09-15'),
+('Mark Twain', '1835-11-30'),
+('Ernest Hemingway', '1899-07-21'),
+('Leo Tolstoy', '1828-09-09'),
+('Charles Dickens', '1812-02-07'),
+('Fyodor Dostoevsky', '1821-11-11'),
+('Gabriel Garcia Marquez', '1927-03-06'),
+('Virginia Woolf', '1882-01-25'),
+('James Joyce', '1882-02-02'),
+('Khaled Hosseini', '1965-03-04'),
+('Dan Brown', '1964-06-22'),
+('Suzanne Collins', '1962-08-10'),
+('George R.R. Martin', '1948-09-20'),
+('Andy Weir', '1972-06-16'),
+('Yuval Noah Harari', '1976-02-24'),
+('Michelle Obama', '1964-01-17'),
+('Tara Westover', '1986-09-27'),
+('Stephen Hawking', '1942-01-08'),
+('Ray Bradbury', '1920-08-22'),
+('Margaret Atwood', '1939-11-18'),
+('Kazuo Ishiguro', '1954-11-08'),
+('Haruki Murakami', '1949-01-12'),
+('Neil Gaiman', '1960-11-10'),
+('Gillian Flynn', '1971-02-24'),
+('Paula Hawkins', '1972-08-26'),
+('John Green', '1977-08-24'),
+('Veronica Roth', '1988-08-19'),
+('Rick Riordan', '1964-06-05'),
+('Brandon Sanderson', '1975-12-19'),
+('Chinua Achebe', '1930-11-16'),
+('Toni Morrison', '1931-02-18'),
+('Salman Rushdie', '1947-06-19'),
+('Alice Walker', '1944-02-09'),
+('Maya Angelou', '1928-04-04'),
+('Roald Dahl', '1916-09-13'),
+('Dr. Seuss', '1904-03-02'),
+('Frank Herbert', '1920-10-08'),
+('Isaac Asimov', '1920-01-02'),
+('Arthur C. Clarke', '1917-12-16');
+GO
+
+-- 3. Publishers (50 entries)
+INSERT INTO [dbo].[Publishers] ([Name], [Address], [Contact]) VALUES
+('Penguin Random House', '1745 Broadway, New York, NY 10019', 'contact@prh.com'),
+('HarperCollins', '195 Broadway, New York, NY 10007', 'info@harpercollins.com'),
+('Simon & Schuster', '1230 Avenue of the Americas, New York, NY 10020', 'support@simonandschuster.com'),
+('Hachette Book Group', '1290 Avenue of the Americas, New York, NY 10104', 'contact@hbgusa.com'),
+('Macmillan Publishers', '120 Broadway, New York, NY 10271', 'info@macmillan.com'),
+('Bloomsbury Publishing', '1385 Broadway, New York, NY 10018', 'contact@bloomsbury.com'),
+('Scholastic Corporation', '557 Broadway, New York, NY 10012', 'info@scholastic.com'),
+('Houghton Mifflin Harcourt', '125 High Street, Boston, MA 02110', 'customerservice@hmhco.com'),
+('W. W. Norton & Company', '500 Fifth Avenue, New York, NY 10110', 'support@wwnorton.com'),
+('Grove Atlantic', '154 West 14th Street, New York, NY 10011', 'info@groveatlantic.com'),
+('Vintage Books', '1745 Broadway, New York, NY 10019', 'vintage@prh.com'),
+('Knopf Doubleday', '1745 Broadway, New York, NY 10019', 'knopf@prh.com'),
+('Little, Brown and Company', '1290 Avenue of the Americas, New York, NY 10104', 'littlebrown@hbgusa.com'),
+('Tor Books', '120 Broadway, New York, NY 10271', 'tor@macmillan.com'),
+('Bantam Books', '1745 Broadway, New York, NY 10019', 'bantam@prh.com'),
+('Del Rey Books', '1745 Broadway, New York, NY 10019', 'delrey@prh.com'),
+('Ace Books', '375 Hudson St, New York, NY 10014', 'ace@penguinrandomhouse.com'),
+('Daw Books', '375 Hudson St, New York, NY 10014', 'daw@penguinrandomhouse.com'),
+('Orbit Books', '1290 Avenue of the Americas, New York, NY 10104', 'orbit@hbgusa.com'),
+('Voyager', '1 London Bridge Street, London, SE1 9GF, UK', 'voyager@harpercollins.co.uk'),
+('Scribner', '1230 Avenue of the Americas, New York, NY 10020', 'scribner@simonandschuster.com'),
+('Viking Press', '375 Hudson St, New York, NY 10014', 'viking@penguinrandomhouse.com'),
+('Gallery Books', '1230 Avenue of the Americas, New York, NY 10020', 'gallery@simonandschuster.com'),
+('Sourcebooks', '1935 Brookdale Rd, Ste 139, Naperville, IL 60563', 'info@sourcebooks.com'),
+('Chronicle Books', '680 Second St, San Francisco, CA 94107', 'hello@chroniclebooks.com'),
+('Candlewick Press', '99 Dover St, Somerville, MA 02144', 'info@candlewick.com'),
+('Farrar, Straus and Giroux', '120 Broadway, New York, NY 10271', 'fsg@macmillan.com'),
+('Graywolf Press', '250 Third Avenue North, Suite 600, Minneapolis, MN 55401', 'wolves@graywolfpress.org'),
+('New Directions', '80 Eighth Avenue, New York, NY 10011', 'info@ndbooks.com'),
+('Coffee House Press', '79 Thirteenth Avenue NE, Suite 110, Minneapolis, MN 55413', 'info@coffeehousepress.org'),
+('Beacon Press', '24 Farnsworth Street, Boston, MA 02210', 'info@beacon.org'),
+('City Lights Publishers', '261 Columbus Avenue, San Francisco, CA 94133', 'staff@citylights.com'),
+('Haymarket Books', 'P.O. Box 180165, Chicago, IL 60618', 'info@haymarketbooks.org'),
+('Verso Books', '20 Jay Street, Suite 1010, Brooklyn, NY 11201', 'verso@versobooks.com'),
+(' Reaktion Books', '33 Great Sutton Street, London, EC1V 0DX, UK', 'info@reaktionbooks.co.uk'),
+('MIT Press', 'One Broadway, 12th Floor, Cambridge, MA 02142', 'mitpress_sales@mit.edu'),
+('Oxford University Press', 'Great Clarendon Street, Oxford, OX2 6DP, UK', 'information.uk@oup.com'),
+('Cambridge University Press', 'University Printing House, Shaftesbury Road, Cambridge, CB2 8BS, UK', 'info@cambridge.org'),
+('Princeton University Press', '41 William Street, Princeton, NJ 08540', 'publicity@press.princeton.edu'),
+('Yale University Press', 'P.O. Box 209040, New Haven, CT 06520', 'yalepress@yale.edu'),
+('University of Chicago Press', '1427 E. 60th Street, Chicago, IL 60637', 'marketing@press.uchicago.edu'),
+('Harvard University Press', '79 Garden Street, Cambridge, MA 02138', 'contact_hup@harvard.edu'),
+('Stanford University Press', '425 Broadway St, Redwood City, CA 94063', 'info@www.sup.org'),
+('Columbia University Press', '61 West 62nd Street, New York, NY 10023', 'cup_book@columbia.edu'),
+('Johns Hopkins University Press', '2715 N. Charles Street, Baltimore, MD 21218', 'jhupress@jhu.edu'),
+('University of California Press', '155 Grand Avenue, Suite 400, Oakland, CA 94612', 'askucp@ucpress.edu'),
+('No Starch Press', '245 8th Street, San Francisco, CA 94103', 'info@nostarch.com'),
+('O''Reilly Media', '1005 Gravenstein Highway North, Sebastopol, CA 95472', 'support@oreilly.com'),
+('Manning Publications', '20 Baldwin Road, PO Box 7006, Shelter Island, NY 11964', 'support@manning.com'),
+('Packt Publishing', 'Livery Place, 35 Livery Street, Birmingham, B3 2PB, UK', 'info@packtpub.com');
+GO
+
+-- 4. Books (50 entries)
+-- ISBNs are real. BookCover URLs are generated from them.
+-- AuthorID and PublisherID will be (BookID % 50) + 1, or just BookID if BookID goes from 1 to 50.
+-- For simplicity, mapping Book 'n' to Author 'n' and Publisher 'n'.
+INSERT INTO [dbo].[Books] ([Title], [AuthorID], [PublisherID], [Genre], [Price], [Stock], [Format], [Language], [PublicationDate], [BookCover], [ISBN]) VALUES
+('To Kill a Mockingbird', 1, 1, 'Classic Fiction', 12.99, 150, 'Paperback', 'English', '1960-07-11', 'https://covers.openlibrary.org/b/isbn/9780061120084-M.jpg', '9780061120084'),
+('1984', 2, 2, 'Dystopian Fiction', 10.50, 200, 'Paperback', 'English', '1949-06-08', 'https://covers.openlibrary.org/b/isbn/9780451524935-M.jpg', '9780451524935'),
+('The Great Gatsby', 3, 3, 'Classic Fiction', 9.99, 120, 'Hardcover', 'English', '1925-04-10', 'https://covers.openlibrary.org/b/isbn/9780743273565-M.jpg', '9780743273565'),
+('Pride and Prejudice', 4, 4, 'Romance', 8.75, 180, 'Paperback', 'English', '1813-01-28', 'https://covers.openlibrary.org/b/isbn/9780141439518-M.jpg', '9780141439518'),
+('The Hobbit', 5, 5, 'Fantasy', 14.00, 250, 'Paperback', 'English', '1937-09-21', 'https://covers.openlibrary.org/b/isbn/9780547928227-M.jpg', '9780547928227'),
+('The Catcher in the Rye', 6, 6, 'Literary Fiction', 11.25, 90, 'eBook', 'English', '1951-07-16', 'https://covers.openlibrary.org/b/isbn/9780316769488-M.jpg', '9780316769488'),
+('Brave New World', 7, 7, 'Dystopian Fiction', 13.50, 110, 'Paperback', 'English', '1932-01-01', 'https://covers.openlibrary.org/b/isbn/9780060850524-M.jpg', '9780060850524'),
+('Lord of the Flies', 8, 8, 'Allegorical Fiction', 9.00, 130, 'Hardcover', 'English', '1954-09-17', 'https://covers.openlibrary.org/b/isbn/9780399501487-M.jpg', '9780399501487'),
+('The Alchemist', 9, 9, 'Philosophical Fiction', 10.99, 300, 'Paperback', 'English', '1988-01-01', 'https://covers.openlibrary.org/b/isbn/9780062315007-M.jpg', '9780062315007'), -- Note: Cover ISBN might differ from book ISBN, but for consistency using book's.
+('Harry Potter and the Sorcerer''s Stone', 10, 10, 'Fantasy', 15.99, 400, 'Hardcover', 'English', '1997-06-26', 'https://covers.openlibrary.org/b/isbn/9780590353427-M.jpg', '9780590353427'),
+('The Shining', 11, 11, 'Horror', 12.50, 80, 'Paperback', 'English', '1977-01-28', 'https://covers.openlibrary.org/b/isbn/9780307743657-M.jpg', '9780307743657'),
+('Murder on the Orient Express', 12, 12, 'Mystery', 9.75, 160, 'eBook', 'English', '1934-01-01', 'https://covers.openlibrary.org/b/isbn/9780062073501-M.jpg', '9780062073501'),
+('Adventures of Huckleberry Finn', 13, 13, 'Adventure', 7.99, 140, 'Paperback', 'English', '1884-12-10', 'https://covers.openlibrary.org/b/isbn/9780486280615-M.jpg', '9780486280615'),
+('The Old Man and the Sea', 14, 14, 'Novella', 8.50, 100, 'Hardcover', 'English', '1952-09-01', 'https://covers.openlibrary.org/b/isbn/9780684801223-M.jpg', '9780684801223'),
+('Anna Karenina', 15, 15, 'Realist Novel', 16.00, 70, 'Paperback', 'English', '1877-01-01', 'https://covers.openlibrary.org/b/isbn/9780143035008-M.jpg', '9780143035008'),
+('A Tale of Two Cities', 16, 16, 'Historical Fiction', 10.25, 115, 'Paperback', 'English', '1859-04-30', 'https://covers.openlibrary.org/b/isbn/9780141439600-M.jpg', '9780141439600'),
+('Crime and Punishment', 17, 17, 'Psychological Fiction', 14.50, 95, 'eBook', 'English', '1866-01-01', 'https://covers.openlibrary.org/b/isbn/9780486415871-M.jpg', '9780486415871'),
+('One Hundred Years of Solitude', 18, 18, 'Magical Realism', 13.75, 105, 'Paperback', 'English', '1967-05-30', 'https://covers.openlibrary.org/b/isbn/9780060883287-M.jpg', '9780060883287'),
+('Mrs Dalloway', 19, 19, 'Modernist Novel', 11.99, 85, 'Hardcover', 'English', '1925-05-14', 'https://covers.openlibrary.org/b/isbn/9780156628709-M.jpg', '9780156628709'),
+('Ulysses', 20, 20, 'Modernist Novel', 18.00, 60, 'Paperback', 'English', '1922-02-02', 'https://covers.openlibrary.org/b/isbn/9780199535675-M.jpg', '9780199535675'),
+('The Kite Runner', 21, 21, 'Historical Fiction', 12.99, 135, 'Paperback', 'English', '2003-05-29', 'https://covers.openlibrary.org/b/isbn/9781594631931-M.jpg', '9781594631931'),
+('The Da Vinci Code', 22, 22, 'Mystery Thriller', 10.00, 220, 'eBook', 'English', '2003-03-18', 'https://covers.openlibrary.org/b/isbn/9780307474278-M.jpg', '9780307474278'),
+('The Hunger Games', 23, 23, 'Dystopian Young Adult', 9.99, 350, 'Paperback', 'English', '2008-09-14', 'https://covers.openlibrary.org/b/isbn/9780439023528-M.jpg', '9780439023528'),
+('A Game of Thrones', 24, 24, 'Fantasy', 17.50, 280, 'Hardcover', 'English', '1996-08-01', 'https://covers.openlibrary.org/b/isbn/9780553381689-M.jpg', '9780553381689'),
+('The Martian', 25, 25, 'Science Fiction', 11.50, 190, 'Paperback', 'English', '2011-09-27', 'https://covers.openlibrary.org/b/isbn/9780804139021-M.jpg', '9780804139021'),
+('Sapiens: A Brief History of Humankind', 26, 26, 'Non-Fiction', 16.99, 170, 'Paperback', 'English', '2011-01-01', 'https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg', '9780062316097'),
+('Becoming', 27, 27, 'Memoir', 19.99, 200, 'Hardcover', 'English', '2018-11-13', 'https://covers.openlibrary.org/b/isbn/9781524763138-M.jpg', '9781524763138'),
+('Educated: A Memoir', 28, 28, 'Memoir', 14.50, 150, 'eBook', 'English', '2018-02-20', 'https://covers.openlibrary.org/b/isbn/9780399590504-M.jpg', '9780399590504'),
+('A Brief History of Time', 29, 29, 'Popular Science', 13.25, 100, 'Paperback', 'English', '1988-04-01', 'https://covers.openlibrary.org/b/isbn/9780553380163-M.jpg', '9780553380163'),
+('Fahrenheit 451', 30, 30, 'Dystopian Fiction', 9.50, 160, 'Paperback', 'English', '1953-10-19', 'https://covers.openlibrary.org/b/isbn/9781451673319-M.jpg', '9781451673319'),
+('The Handmaid''s Tale', 31, 31, 'Dystopian Fiction', 12.75, 140, 'Hardcover', 'English', '1985-01-01', 'https://covers.openlibrary.org/b/isbn/9780385490818-M.jpg', '9780385490818'),
+('Never Let Me Go', 32, 32, 'Dystopian Fiction', 11.00, 90, 'Paperback', 'English', '2005-04-05', 'https://covers.openlibrary.org/b/isbn/9781400078776-M.jpg', '9781400078776'),
+('Norwegian Wood', 33, 33, 'Literary Fiction', 10.99, 110, 'eBook', 'English', '1987-09-04', 'https://covers.openlibrary.org/b/isbn/9780375704024-M.jpg', '9780375704024'),
+('American Gods', 34, 34, 'Fantasy', 14.99, 130, 'Paperback', 'English', '2001-06-19', 'https://covers.openlibrary.org/b/isbn/9780060558123-M.jpg', '9780060558123'),
+('Gone Girl', 35, 35, 'Thriller', 9.25, 210, 'Paperback', 'English', '2012-06-05', 'https://covers.openlibrary.org/b/isbn/9780307588371-M.jpg', '9780307588371'),
+('The Girl on the Train', 36, 36, 'Thriller', 10.50, 190, 'Hardcover', 'English', '2015-01-13', 'https://covers.openlibrary.org/b/isbn/9781594633652-M.jpg', '9781594633652'),
+('The Fault in Our Stars', 37, 37, 'Young Adult', 8.99, 250, 'Paperback', 'English', '2012-01-10', 'https://covers.openlibrary.org/b/isbn/9780525478812-M.jpg', '9780525478812'),
+('Divergent', 38, 38, 'Young Adult Dystopian', 9.75, 230, 'eBook', 'English', '2011-04-25', 'https://covers.openlibrary.org/b/isbn/9780062024039-M.jpg', '9780062024039'),
+('The Lightning Thief', 39, 39, 'Fantasy Young Adult', 7.99, 280, 'Paperback', 'English', '2005-06-28', 'https://covers.openlibrary.org/b/isbn/9780786838653-M.jpg', '9780786838653'),
+('Mistborn: The Final Empire', 40, 40, 'Fantasy', 15.50, 180, 'Hardcover', 'English', '2006-07-17', 'https://covers.openlibrary.org/b/isbn/9780765311788-M.jpg', '9780765311788'),
+('Things Fall Apart', 41, 41, 'Historical Fiction', 10.25, 120, 'Paperback', 'English', '1958-01-01', 'https://covers.openlibrary.org/b/isbn/9780385474542-M.jpg', '9780385474542'),
+('Beloved', 42, 42, 'Historical Fiction', 13.00, 100, 'Paperback', 'English', '1987-09-01', 'https://covers.openlibrary.org/b/isbn/9781400033416-M.jpg', '9781400033416'),
+('Midnight''s Children', 43, 43, 'Magical Realism', 14.75, 90, 'eBook', 'English', '1981-04-01', 'https://covers.openlibrary.org/b/isbn/9780812976533-M.jpg', '9780812976533'),
+('The Color Purple', 44, 44, 'Epistolary Novel', 11.50, 110, 'Paperback', 'English', '1982-01-01', 'https://covers.openlibrary.org/b/isbn/9780156028356-M.jpg', '9780156028356'),
+('I Know Why the Caged Bird Sings', 45, 45, 'Autobiography', 9.99, 130, 'Hardcover', 'English', '1969-01-01', 'https://covers.openlibrary.org/b/isbn/9780345514400-M.jpg', '9780345514400'),
+('Charlie and the Chocolate Factory', 46, 46, 'Children''s Fantasy', 7.50, 200, 'Paperback', 'English', '1964-01-17', 'https://covers.openlibrary.org/b/isbn/9780142410318-M.jpg', '9780142410318'),
+('The Cat in the Hat', 47, 47, 'Children''s Book', 6.99, 300, 'Hardcover', 'English', '1957-03-12', 'https://covers.openlibrary.org/b/isbn/9780394800011-M.jpg', '9780394800011'),
+('Dune', 48, 48, 'Science Fiction', 16.50, 170, 'Paperback', 'English', '1965-08-01', 'https://covers.openlibrary.org/b/isbn/9780441013593-M.jpg', '9780441013593'),
+('Foundation', 49, 49, 'Science Fiction', 12.00, 140, 'eBook', 'English', '1951-06-01', 'https://covers.openlibrary.org/b/isbn/9780553293357-M.jpg', '9780553293357'),
+('2001: A Space Odyssey', 50, 50, 'Science Fiction', 11.75, 100, 'Paperback', 'English', '1968-04-01', 'https://covers.openlibrary.org/b/isbn/9780451457998-M.jpg', '9780451457998');
+GO
+
+-- 5. Customers (50 entries)
+-- Passwords should be hashed. Using 'CustP@$$wOrd1!' as a placeholder.
+DECLARE @i_cust INT = 1;
+WHILE @i_cust <= 50
+BEGIN
+    INSERT INTO [dbo].[Customers] ([FirstName], [LastName], [Email], [Phone], [Password], [ShippingAddress], [BillingAddress])
+    VALUES
+    ('CustF' + CAST(@i_cust AS VARCHAR(2)),
+     'CustL' + CAST(@i_cust AS VARCHAR(2)),
+     'customer' + CAST(@i_cust AS VARCHAR(2)) + '@example.com',
+     '555-01' + RIGHT('00' + CAST(@i_cust AS VARCHAR(2)), 2),
+     'CustP@$$wOrd' + CAST(@i_cust AS VARCHAR(2)) + '!',
+     CAST(@i_cust AS VARCHAR(3)) + ' Main St, Anytown, USA',
+     CASE WHEN @i_cust % 5 = 0 THEN NULL ELSE CAST(@i_cust AS VARCHAR(3)) + ' Main St, Anytown, USA' END); -- Some null billing to vary
+    SET @i_cust = @i_cust + 1;
+END
+GO
+
+-- 6. Orders (50 entries)
+-- Each customer places one order for simplicity in this dataset.
+DECLARE @i_order INT = 1;
+DECLARE @order_status VARCHAR(50);
+WHILE @i_order <= 50
+BEGIN
+    SET @order_status = CASE @i_order % 4
+                            WHEN 0 THEN 'Pending'
+                            WHEN 1 THEN 'Shipped'
+                            WHEN 2 THEN 'Delivered'
+                            ELSE 'Cancelled'
+                        END;
+    INSERT INTO [dbo].[Orders] ([CustomerID], [OrderDate], [Status])
+    VALUES
+    (@i_order, -- CustomerID from 1 to 50
+     DATEADD(day, -(@i_order % 30), GETDATE()), -- Vary order dates over the last month
+     @order_status);
+    SET @i_order = @i_order + 1;
+END
+GO
+
+-- 7. OrderDetails (50 entries)
+-- Each order has one book for simplicity. BookID and OrderID will match for this 1-to-1 setup.
+-- We could make more OrderDetails entries than Orders (e.g., 100 OrderDetails for 50 Orders).
+-- For 50 entries, we'll do one OrderDetail per Order.
+DECLARE @i_odetail INT = 1;
+WHILE @i_odetail <= 50
+BEGIN
+    INSERT INTO [dbo].[OrderDetails] ([OrderID], [BookID], [Quantity])
+    VALUES
+    (@i_odetail, -- OrderID from 1 to 50
+     @i_odetail, -- BookID from 1 to 50 (Order 'n' contains Book 'n')
+     (@i_odetail % 3) + 1); -- Quantity 1, 2, or 3
+    SET @i_odetail = @i_odetail + 1;
+END
+GO
+
+
+-- 8. Payments (50 entries)
+-- One payment per order. Payment only for 'Shipped' or 'Delivered' orders.
+-- Amount derived from the Book's price for that order (BookID = OrderID in this setup)
+DECLARE @i_payment INT = 1;
+DECLARE @payment_method VARCHAR(50);
+DECLARE @order_status_for_payment VARCHAR(50);
+DECLARE @book_price DECIMAL(10,2);
+
+WHILE @i_payment <= 50
+BEGIN
+    -- Get the status of the current order
+    SELECT @order_status_for_payment = [Status] FROM [dbo].[Orders] WHERE [OrderID] = @i_payment;
+
+    -- Only create payment for Shipped or Delivered orders
+    IF @order_status_for_payment IN ('Shipped', 'Delivered')
+    BEGIN
+        SET @payment_method = CASE @i_payment % 5
+                                WHEN 0 THEN 'Card'
+                                WHEN 1 THEN 'JazzCash'
+                                WHEN 2 THEN 'EasyPaisa'
+                                WHEN 3 THEN 'SadaPay'
+                                ELSE 'Cash' -- Though cash is less likely for online, for variety
+                            END;
+        
+        -- Get book price for this order (BookID = OrderID here)
+        -- Quantity is from OrderDetails where OrderID = @i_payment
+        SELECT @book_price = b.Price * od.Quantity 
+        FROM [dbo].[Books] b JOIN [dbo].[OrderDetails] od ON b.BookID = od.BookID
+        WHERE od.OrderID = @i_payment AND b.BookID = @i_payment; -- Assuming BookID = OrderID for this setup
+
+        INSERT INTO [dbo].[Payments] ([OrderID], [PaymentMethod], [PaymentDate], [Amount])
+        VALUES
+        (@i_payment,
+         @payment_method,
+         DATEADD(minute, -(@i_payment % 60), (SELECT OrderDate FROM Orders WHERE OrderID = @i_payment)), -- Payment date around order date
+         @book_price);
+    END
+    SET @i_payment = @i_payment + 1;
+END
+GO
+
+
+-- 9. OrderLog (50 entries)
+-- Create a log entry for each order.
+DECLARE @i_log INT = 1;
+DECLARE @log_payment_method VARCHAR(50);
+WHILE @i_log <= 50
+BEGIN
+    -- Attempt to get payment method if payment exists for this order
+    SELECT @log_payment_method = [PaymentMethod] FROM [dbo].[Payments] WHERE [OrderID] = @i_log;
+
+    INSERT INTO [dbo].[OrderLog] ([OrderID], [LogDate], [PaymentMethod])
+    VALUES
+    (@i_log,
+     DATEADD(hour, -(@i_log % 24), (SELECT OrderDate FROM Orders WHERE OrderID = @i_log)), -- Log date close to order date
+     @log_payment_method); -- This will be NULL if no payment record exists for the order
+    SET @i_log = @i_log + 1;
+END
+GO
+
+PRINT 'Successfully inserted 50 sample entries into each table.';
+
+-- Sanity Checks (Optional - run these SELECTS to verify counts)
+/*
+SELECT 'Admins' as TableName, COUNT(*) AS Records FROM [dbo].[Admins]
+UNION ALL
+SELECT 'Authors', COUNT(*) FROM [dbo].[Authors]
+UNION ALL
+SELECT 'Publishers', COUNT(*) FROM [dbo].[Publishers]
+UNION ALL
+SELECT 'Books', COUNT(*) FROM [dbo].[Books]
+UNION ALL
+SELECT 'Customers', COUNT(*) FROM [dbo].[Customers]
+UNION ALL
+SELECT 'Orders', COUNT(*) FROM [dbo].[Orders]
+UNION ALL
+SELECT 'OrderDetails', COUNT(*) FROM [dbo].[OrderDetails]
+UNION ALL
+SELECT 'Payments', COUNT(*) FROM [dbo].[Payments] -- Might be less than 50 if not all orders are Shipped/Delivered
+UNION ALL
+SELECT 'OrderLog', COUNT(*) FROM [dbo].[OrderLog];
+
+-- Check a few book covers by generating their URLs from the DB data
+SELECT TOP 5 Title, ISBN, BookCover FROM [dbo].[Books];
+-- Example URL: https://covers.openlibrary.org/b/isbn/9780061120084-M.jpg
+*/
+GO

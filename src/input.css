@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Your Custom Global Styles (Optional - many can be done with Tailwind utilities) */
+ body {
+     font-family: 'Quicksand', sans-serif; /* Or configure in tailwind.config.js theme */
+     /* background-color: #f5f5f5; /* Tailwind class: bg-gray-100 or similar */
+ }
