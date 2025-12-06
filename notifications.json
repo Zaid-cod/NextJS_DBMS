@@ -1,0 +1,185 @@
+{
+  "unread": [],
+  "read": [
+    {
+      "id": "mbcl0jidi4opxuxg6w",
+      "headline": "book added: hello world",
+      "message": "the book \"hello world\" has been successfully added. stock: 44, price: $23.00.",
+      "timestamp": "2025-05-31t18:45:07.141z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#books-panel"
+    },
+    {
+      "id": "mbckl4zsbehknoikfnp",
+      "headline": "New Order Placed",
+      "message": "A new order has been placed by CustF22 CustL22. Total items: 2. Payment: Card.",
+      "timestamp": "2025-05-31T18:33:08.488Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbckjzlqy6i48srpg8b",
+      "headline": "Book added: Hey let it log",
+      "message": "The book \"Hey let it log\" has been successfully added. Stock: 232, Price: $23.00.",
+      "timestamp": "2025-05-31T18:32:14.846Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#books-panel"
+    },
+    {
+      "id": "mbcfya3py5pirnwdlr",
+      "headline": "Book added: let them",
+      "message": "The book \"let them\" has been successfully added. Stock: 233, Price: $23.00.",
+      "timestamp": "2025-05-31T16:23:23.557Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#books-panel"
+    },
+    {
+      "id": "mbcfpb8i2iap7r7enmz",
+      "headline": "Publisher added: Hearr Publisheres",
+      "message": "Publisher \"Hearr Publisheres\" has been successfully added.",
+      "timestamp": "2025-05-31T16:16:25.122Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#publishers-panel"
+    },
+    {
+      "id": "mbcfoae32rvw6vr8k2",
+      "headline": "Author added: hariririr",
+      "message": "Author \"hariririr\" has been successfully added.",
+      "timestamp": "2025-05-31T16:15:37.371Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#authors-panel"
+    },
+    {
+      "id": "mbcflsne4wr03xdncyo",
+      "headline": "Customer updated: CustF34 CustL34...",
+      "message": "Customer \"CustF34 CustL34\" (ID: 34) has been successfully updated. Email: customer34@ccc.com.",
+      "timestamp": "2025-05-31T16:13:41.066Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#customers-panel"
+    },
+    {
+      "id": "mbcfk75qv5ijklvedk",
+      "headline": "Customer added: Sarh 2324...",
+      "message": "Customer \"Sarh 2324\" (ID: New) has been successfully added. Email: saraha@gmdddail.com.",
+      "timestamp": "2025-05-31T16:12:26.558Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#customers-panel"
+    },
+    {
+      "id": "mbcd4rhu9s7tk3slxe",
+      "headline": "Author Deleted: haris",
+      "message": "The author \"haris\" has been deleted.",
+      "timestamp": "2025-05-31T15:04:27.186Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#authors-panel"
+    },
+    {
+      "id": "mbccy4ish6epqkl3y5r",
+      "headline": "Customer updated: Sarah corner...",
+      "message": "Customer \"Sarah corner\" (ID: 1) has been successfully updated. Email: customer1@example.com.",
+      "timestamp": "2025-05-31T14:59:17.476Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#customers-panel"
+    },
+    {
+      "id": "mbc9kp9bqi6lo60zg9f",
+      "headline": "Order Status Update: #35",
+      "message": "Order ID 35 status has been changed to \"Processing\".",
+      "timestamp": "2025-05-31T13:24:52.319Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc93p785v5d7eeaabw",
+      "headline": "Order Status Update: #32",
+      "message": "Order ID 32 status has been changed to \"Completed\".",
+      "timestamp": "2025-05-31T13:11:39.092Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc93mq977k9ups8lgg",
+      "headline": "Order Status Update: #1",
+      "message": "Order ID 1 status has been changed to \"Completed\".",
+      "timestamp": "2025-05-31T13:11:35.889Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc93l5bsglmjp9j9z",
+      "headline": "Order Status Update: #31",
+      "message": "Order ID 31 status has been changed to \"Completed\".",
+      "timestamp": "2025-05-31T13:11:33.839Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc93iert5x3ctu666",
+      "headline": "Order Status Update: #30",
+      "message": "Order ID 30 status has been changed to \"Completed\".",
+      "timestamp": "2025-05-31T13:11:30.291Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc93grsb3djusxokyc",
+      "headline": "Order Status Update: #3",
+      "message": "Order ID 3 status has been changed to \"Completed\".",
+      "timestamp": "2025-05-31T13:11:28.168Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc8zics2wqwlhtk6lx",
+      "headline": "Order Status Update: #30",
+      "message": "Order ID 30 status has been changed to \"Processing\".",
+      "timestamp": "2025-05-31T13:08:23.596Z",
+      "type": "info",
+      "read": true,
+      "detailsLink": "#orders-panel"
+    },
+    {
+      "id": "mbc6vws5rj86b7qho9i",
+      "headline": "Book added: No book",
+      "message": "The book \"No book\" has been successfully added. Stock: 233, Price: $23.00.",
+      "timestamp": "2025-05-31T12:09:36.437Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#books-panel"
+    },
+    {
+      "id": "mbc57guulzu00b01zsq",
+      "headline": "Customer added: hllo world...",
+      "message": "Customer \"hllo world\" (ID: New) has been successfully added. Email: hello@gm.com.",
+      "timestamp": "2025-05-31T11:22:36.438Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#customers-panel"
+    },
+    {
+      "id": "mbc2xdnd51o0v9nlr3p",
+      "headline": "Book added: 4q44234",
+      "message": "The book \"4q44234\" has been successfully added.",
+      "timestamp": "2025-05-31T10:18:46.489Z",
+      "type": "success",
+      "read": true,
+      "detailsLink": "#books-panel"
+    }
+  ]
+}
